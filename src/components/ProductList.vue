@@ -16,117 +16,29 @@
           <td>{{ product.description }}</td>
           <td>{{ product.price }}</td>
           <td>
-            <button class="editbtn" @click="editProduct(product)">Edit</button>
-            <button class="deletebtn" @click="deleteProduct(product.id)">Delete</button>
+            <button @click="deleteProduct(product.id)">Delete Product</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <edit-product v-if="editingProductId !== null" :product="getEditingProduct()" @updateProduct="updateProduct" />
-    <product-update-popup ref="updatePopup" />
-
   </div>
 </template>
 
 <script>
-import EditProduct from './EditProduct.vue';
-import ProductUpdatePopup from './ProductUpdatePopup.vue';
-
-
-
 export default {
-  // props: {
-  //   products: {
-  //     type: Array,
-  //     required: true
-  //   }
-  // },
-
-  // // name: 'ProductList',
-  // // props: ['products'],
-
-  // data() {
-  //   return {
-  //     editingProductId: null
-  //   };
-  // },
-
-  data() {
-    return {
-      products: [
-      { id: 1, name: "Brown Butter Chocolate Chip Cookies",
-         description: "Brown butter is made by melting butter and caramelizing the milk solids, turning the butter a lovely golden-brown hue and imparting a deep, nutty flavor. ",
-          price: 150, },
-
-        { id: 2, name: "Chocolate Cobbler", 
-        description: "A simple list of ingredients that you probably almost always have on hand in your pantry is used to create a decadent chocolate dessert that can be described as a mix of cake and pudding.",
-         price: 350,},
-
-        { id: 3, name: "Cream Cheese Pound Cake", 
-        description: "This cream cheese cake recipe takes all of the best parts of a classic pound cake and kicks it up with a creamy, dreamy, and slightly tart ingredient that makes us wonder why we didn't think of this little concoction sooner. ",
-         price: 250,},
-
-        { id: 4, name: "Egg Custard Pie", 
-        description: "Custard pies date back all the way to the Middle Ages, when Romans first discovered the binding properties of eggs. ",
-         price: 200,},
-
-      ],
-      cart: [],editingProductId: null
-    
-
-    };
-  },
-
-
-
-  components: {
-    EditProduct,
-    ProductUpdatePopup
+  props: {
+    products: {
+      type: Array,
+      required: true
+    }
   },
   methods: {
-
-    editProduct(product) {
-      this.editingProductId = product.id;
-    },
-
-    getEditingProduct() {
-      return this.products.find(product => product.id === this.editingProductId);
-    },
-
-
-    // updateProduct(updatedProduct) {
-    //   this.$emit('updateProduct', updatedProduct);
-    //   this.editingProductId = null;
-    // },
-
-    updateProduct(updatedProduct) {
-      const index = this.products.findIndex(product => product.id === updatedProduct.id);
-      if (index !== -1) {
-        this.products.splice(index, 1, updatedProduct);
-        this.$refs.updatePopup.showPopup();
-
-      }
-      this.editingProductId = null;
-    },
-
-
     deleteProduct(id) {
-      if (confirm('Are you sure you want to delete this item?')) {
-        this.products = this.products.filter(product => product.id !== id);
-      }
+        this.$emit("delete-product", id);
     },
-  
-}
+  },
 };
-
 </script>
-
-
-
-
-
-
-
 
 <style>
 .product-list {
@@ -162,43 +74,16 @@ export default {
   font-weight: bold;
 }
 
-
-
-
-.editbtn{
-  background-color: #0000ff;
+.product-list button {
+  background-color: #f44336;
   color: white;
   border: none;
-  padding: 10px 20px;
-  width: 50px;
-  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 5px ;
-  width: 79px;
-}   
-
-.deletebtn{
-  background-color: #ff0019;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 5px ;
 }
 
-
-
-
-
-.deletebtn:hover {
-  background-color: #a40000;
-}   
-
-.editbtn:hover {
-  background-color: rgb(14, 6, 151);
-} 
+.product-list button:hover {
+  background-color: #d32f2f;
+}
 </style>
