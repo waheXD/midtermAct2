@@ -36,6 +36,12 @@ export default {
     addProduct(newProduct) {
       this.products.push(newProduct);
     },
+    editProduct(updatedProduct) {
+      const index = this.products.findIndex(product => product.id === updatedProduct.id);
+      if (index !== -1) {
+        this.products.splice(index, 1, updatedProduct);
+      }
+    },
     deleteProduct(productId) {
       if (confirm("Are you sure you want to delete this product?")) {
         this.products = this.products.filter(product => product.id !== productId);
