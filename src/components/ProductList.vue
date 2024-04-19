@@ -11,56 +11,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in displayProducts" :key="product.id">
+        <tr v-for="product in products" :key="product.id">
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
           <td>{{ product.price }}</td>
           <td>
-            <button @click="addToCart(product)">Add to Cart</button>
+            <button @click="deleteProduct(product.id)">Delete Product</button>
           </td>
         </tr>
       </tbody>
     </table>
-
-    
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      products: [
-        { id: 1, name: "Brown Butter Chocolate Chip Cookies",
-         description: "Brown butter is made by melting butter and caramelizing the milk solids, turning the butter a lovely golden-brown hue and imparting a deep, nutty flavor. ",
-          price: 150, },
-
-        { id: 2, name: "Chocolate Cobbler", 
-        description: "A simple list of ingredients that you probably almost always have on hand in your pantry is used to create a decadent chocolate dessert that can be described as a mix of cake and pudding.",
-         price: 350,},
-
-        { id: 2, name: "Cream Cheese Pound Cake", 
-        description: "This cream cheese cake recipe takes all of the best parts of a classic pound cake and kicks it up with a creamy, dreamy, and slightly tart ingredient that makes us wonder why we didn't think of this little concoction sooner. ",
-         price: 250,},
-
-        { id: 2, name: "Egg Custard Pie", 
-        description: "Custard pies date back all the way to the Middle Ages, when Romans first discovered the binding properties of eggs. ",
-         price: 200,},
-
-        // ...
-      ],
-      cart: [],
-    };
-  },
-  computed: {
-    displayProducts() {
-      // Implement a computed property to filter or sort products if needed
-      return this.products;
-    },
+  props: {
+    products: {
+      type: Array,
+      required: true
+    }
   },
   methods: {
-    addToCart(product) {
-      this.cart.push(product);
+    deleteProduct(id) {
+        this.$emit("delete-product", id);
     },
   },
 };
@@ -101,7 +75,7 @@ export default {
 }
 
 .product-list button {
-  background-color: #4caf50;
+  background-color: #f44336;
   color: white;
   border: none;
   padding: 0.25rem 0.5rem;
@@ -110,7 +84,6 @@ export default {
 }
 
 .product-list button:hover {
-  background-color: #45a049;
+  background-color: #d32f2f;
 }
 </style>
-
