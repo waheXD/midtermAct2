@@ -1,4 +1,14 @@
-hkahlxbb
+<template>
+  <div id="app">
+    <product-list :products="products" @delete-product="deleteProduct" />
+    <transition name="fade" :duration="{ enter: 2000, leave: 2000 }"> 
+      <add-product v-if="showAddProduct" @product-added="addProduct" />
+    </transition>
+    <div class="add-product-btn-container"> 
+      <button class="add-product-btn" @click="showAddProduct = true">Add Product</button>
+    </div>
+  </div>
+</template>
 
 <script>
 import ProductList from "./components/ProductList.vue";
